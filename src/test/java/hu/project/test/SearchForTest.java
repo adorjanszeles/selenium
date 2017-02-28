@@ -79,6 +79,7 @@ public class SearchForTest {
 
     @Test(expected = NoResultFound.class)
     public void testSearchForKeyThatHasNoResult() throws Exception {
+        // Ez a kereső nálam nem hozott eredményt
         String searchKey = "kjdfghjldfkjglkfdgélfdjglfdjgklfdjglkfjdlkgjfdklgjlfdkjlgjlkfdjglkfdjglfdkjglkfdjglfdkgjldf";
         Assert.assertEquals("The page title should equal Google at the start of the test.", "Google",
                 this.googleSearchPage.getHeaderTitle());
