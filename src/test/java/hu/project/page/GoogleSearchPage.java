@@ -13,7 +13,7 @@ import org.openqa.selenium.support.FindBy;
 public class GoogleSearchPage extends AbstractPage {
     public static final String pageUrl = "http://www.google.com";
 
-    // Lehetne név alapján is, akkor az annotációban (name = "q") szerepel
+    // Lehetne név alapján is, akkor az annotációban (name = "q") szerepelne
     @FindBy(id = "lst-ib")
     private WebElement searchField;
 
@@ -28,13 +28,13 @@ public class GoogleSearchPage extends AbstractPage {
 
     @Override
     protected void isLoadedPage() throws Error {
-        this.waitForVisibility(this.searchField, 60);
+        this.waitForVisibility(this.searchField, GoogleSearchPage.DEFAULT_ELEMENT_TIMEOUT);
         String url = this.webDriver.getCurrentUrl();
         Assert.assertTrue("Not on the Google's search page!", url.contains("google"));
     }
 
     public GoogleSearchPage enterSearchKey(String searchKey) {
-        this.waitForVisibility(this.searchField, 60);
+        this.waitForVisibility(this.searchField, GoogleSearchPage.DEFAULT_ELEMENT_TIMEOUT);
         this.searchField.click();
         this.searchField.sendKeys(searchKey);
         return this;
@@ -43,10 +43,6 @@ public class GoogleSearchPage extends AbstractPage {
     public GoogleResultPage submitSearch() {
         this.searchField.submit();
         return new GoogleResultPage(this.webDriver);
-    }
-
-    public String getHeaderTitle() {
-        return this.webDriver.getTitle();
     }
 
 }

@@ -1,5 +1,6 @@
 package hu.project.test;
 
+import hu.project.exception.NoResultFound;
 import hu.project.page.GoogleResultPage;
 import hu.project.page.GoogleSearchPage;
 import org.junit.After;
@@ -60,6 +61,31 @@ public class SearchForTest {
                 this.googleResultPage.getSearchFieldValue().contains(searchKey));
         Assert.assertTrue("The page title should start with tree!",
                 this.googleResultPage.getHeaderTitle().startsWith(searchKey));
+    }
+
+    @Test
+    public void testSearchForWombatAndClickSecondResult() throws Exception {
+        String searchKey = "Wombat";
+        Assert.assertEquals("The page title should equal Google at the start of the test.", "Google",
+                this.googleSearchPage.getHeaderTitle());
+        this.googleResultPage = this.googleSearchPage
+                .enterSearchKey(searchKey)
+                .submitSearch();
+        String googleSearchUrl = this.googleResultPage.getCurrentUrl();
+        this.googleResultPage.clickOnSearchResult(2);
+        Assert.assertFalse("The url must not equal with google result page url!",
+                this.googleResultPage.getCurrentUrl().equals(googleSearchUrl));
+    }
+
+    @Test(expected = NoResultFound.class)
+    public void testSearchForKeyThatHasNoResult() throws Exception {
+        String searchKey = "kjdfghjldfkjglkfdgélfdjglfdjgklfdjglkfjdlkgjfdklgjlfdkjlgjlkfdjglkfdjglfdkjglkfdjglfdkgjldf";
+        Assert.assertEquals("The page title should equal Google at the start of the test.", "Google",
+                this.googleSearchPage.getHeaderTitle());
+        this.googleResultPage = this.googleSearchPage
+                .enterSearchKey(searchKey)
+                .submitSearch();
+        this.googleResultPage.clickOnSearchResult(2);
     }
 
 }

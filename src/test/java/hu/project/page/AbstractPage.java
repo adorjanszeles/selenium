@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  * @author Széles Adorján
  */
 public abstract class AbstractPage extends LoadableComponent {
+    protected static final int DEFAULT_ELEMENT_TIMEOUT = 30;
     protected WebDriver webDriver;
 
     public AbstractPage(WebDriver webDriver) {
@@ -20,6 +21,14 @@ public abstract class AbstractPage extends LoadableComponent {
         PageFactory.initElements(this.webDriver, this);
         this.load();
         this.isLoaded();
+    }
+
+    public String getHeaderTitle() {
+        return this.webDriver.getTitle();
+    }
+
+    public String getCurrentUrl() {
+        return this.webDriver.getCurrentUrl();
     }
 
     @Override
@@ -32,7 +41,7 @@ public abstract class AbstractPage extends LoadableComponent {
         this.isLoadedPage();
     }
 
-    protected void waitForVisibility(WebElement element, int timeoutInSeconds) throws Error {
+    protected void waitForVisibility(WebElement element, int timeoutInSeconds) {
         new WebDriverWait(this.webDriver, timeoutInSeconds).until(ExpectedConditions.visibilityOf(element));
     }
 
